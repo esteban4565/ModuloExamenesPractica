@@ -10,10 +10,10 @@ class ConfigExamen_Model extends Model {
     }
 
     //La funcion contenidos devuelve un array con todos los contenidos del Usuario 
-    public function contenidos() {
-        return $this->db->select('SELECT cod_contenido, nombre_contenido FROM contenidos '
+    public function contenidos($nivel) {
+        return $this->db->select('SELECT DISTINCT nombre_contenido,cod_contenido FROM contenidos '
                                 . 'WHERE ced_docente = :ced_docente '
-                                . 'AND nivel_contenido = 7', array('ced_docente' => $_SESSION['userid']));
+                                . 'AND nivel_contenido = :nivel', array('ced_docente' => $_SESSION['userid'], 'nivel' => $nivel));
     }
 
     public function noteSingleList($noteid) {
@@ -21,44 +21,25 @@ class ConfigExamen_Model extends Model {
     }
 
     public function create($data) {
-        //Consulto maximo numero_respuesta
-        $consultaMaxRespuesta = $this->db->select("SELECT MAX(numero_respuesta) as codigo FROM respuestas");
-        $cod_respuesta = (int) $consultaMaxRespuesta[0]['codigo'] + 1;
-
-
-        //Inserto Respuestas
-        $this->db->insert('respuestas', array(
-            'numero_respuesta' => $cod_respuesta,
-            'respuesta1' => $data['respuesta1_tx'],
-            'respuesta2' => $data['respuesta2_tx'],
-            'respuesta3' => $data['respuesta3_tx'],
-            'respuesta4' => $data['respuesta4_tx'],
-            'correcta' => $data['correcta']
-        ));
-
-        //verifico contenido
-        if ($data['contenido'] == 'Nuevo') {
-            $contenidoGrabado = $data['contenido_tx'];
-        } else {
-             $contenidoGrabado = $data['contenido'];
-        }
-
-         //Consulto maximo numero_pregunta
-        $consultaMaxPregunta = $this->db->select("SELECT MAX(numero_pregunta) as codigo FROM preguntas");
-        $numero_pregunta = (int) $consultaMaxPregunta[0]['codigo'] + 1;
-        
-        
-        //inserto pregunta
-        $this->db->insert('preguntas', array(
-            'numero_pregunta' => $numero_pregunta,
-            'cod_respuesta' => $cod_respuesta,
-            'cod_img_pregunta' =>0,
-            'cod_materia' => $data['asignatura'],
+        //Inserto Datos Examen
+        $this->db->insert('examen', array(
+            'nombre_examen' => $data['nom_examen_tx'],
             'ced_docente' => $_SESSION['userid'],
-            'pregunta' => $data['pregunta_tx'],
-            'nivel' => $data['nivel'],
-            'contenido' => $contenidoGrabado
+            'nivel_examen' => $data['nivel'],
+            'cod_materia' => $data['cod_materia']
         ));
+        
+        
+        
+        
+        //*****************************************************
+        //VOY POR AQUI
+        //*****************************************************
+        //
+        //
+        //Consulto maximo cod_contenido
+        $consultaMaxCodigo = $this->db->select("SELECT MAX(cod_contenido) as codigo FROM contenidos");
+        $cod_contenido = (int) $consultaMaxContenido[0]['codigo'] + 1;
     }
 
     public function createContenido($contenido, $nivel_contenido) {

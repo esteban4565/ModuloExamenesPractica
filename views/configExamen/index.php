@@ -21,7 +21,7 @@
                 </td>
 
                 <td>
-                    <select name="asignatura">
+                    <select name="cod_materia">
                         <?php
                         //cargo en el select todas las asignaturas que da el profesor
                         foreach ($_SESSION['asignaturas'] as $key => $value) {
