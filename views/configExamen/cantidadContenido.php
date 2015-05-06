@@ -2,6 +2,7 @@
 <br>
 <?php
 if (count($this->contenidos) > 0) {
+    print_r($this->cod_examen);
     ?>
     <form name="config_examen_parte2" method="Post" action="<?php echo URL; ?>configExamen/guardar">
         <h1>Configure el Examen</h1>
@@ -47,10 +48,10 @@ if (count($this->contenidos) > 0) {
         echo '<br>';
         //aqui envio los parametros al if de "Guardar"
         echo '<input type="hidden" name="contador_contenidos" value="' . $contador_contenidos . '">';
-        echo '<input type="hidden" name="nombre_examen" value="' . $nombre_examen . '">';
-        echo '<input type="hidden" name="nivel" value="' . $nivel . '">';
-        echo '<input type="hidden" name="cod_materia" value="' . $cod_materia . '">';
-        echo '<input type="hidden" name="cant_preguntas" value="' . $cant_preguntas . '">';
+        echo '<input type="hidden" name="cod_examen" value="' . $this->cod_examen . '">';
+//        echo '<input type="hidden" name="nivel" value="' . $nivel . '">';
+//        echo '<input type="hidden" name="cod_materia" value="' . $cod_materia . '">';
+        echo '<input type="hidden" name="cant_preguntas" value="' . $this->cant_preguntas . '">';
         echo '<label>&nbsp;</label><input type="submit" value="Guardar"/>';
         echo '</form>';
     } else {

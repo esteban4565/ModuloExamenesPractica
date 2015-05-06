@@ -12,62 +12,31 @@ class ConfigExamen_Model extends Model {
     //La funcion contenidos devuelve un array con todos los contenidos del Usuario 
     public function contenidos($nivel) {
         return $this->db->select('SELECT DISTINCT nombre_contenido,cod_contenido FROM contenidos '
-                                . 'WHERE ced_docente = :ced_docente '
-                                . 'AND nivel_contenido = :nivel', array('ced_docente' => $_SESSION['userid'], 'nivel' => $nivel));
+                        . 'WHERE ced_docente = :ced_docente '
+                        . 'AND nivel_contenido = :nivel', array('ced_docente' => $_SESSION['userid'], 'nivel' => $nivel));
     }
 
-    public function noteSingleList($noteid) {
-        return $this->db->select('SELECT * FROM note WHERE userid = :userid AND noteid = :noteid', array('userid' => $_SESSION['userid'], 'noteid' => $noteid));
+    //La funcion consulta_cantidad_preguntas devuelve un entero con la cantidad de preguntas almacenadas de ese contenido en especifico 
+    public function consulta_cantidad_preguntas($cod_contenido) {
+        return $this->db->select('SELECT numero_pregunta FROM preguntas '
+                                . 'WHERE contenido = :contenido', array('contenido' => $cod_contenido));
     }
 
+    //La funcion create inserta en la BD los datos principales del examen, ademas devuelve el id del examen para relacionarlo
+    //con la tabla contenidos_examen
     public function create($data) {
-        //Inserto Datos Examen
-        $this->db->insert('examen', array(
+        $sth = $this->db->prepare('INSERT INTO examen (nombre_examen, ced_docente, '
+                . 'nivel_examen,cod_materia) VALUES (:nombre_examen, '
+                . ':ced_docente, :nivel_examen, :cod_materia)');
+        $sth->execute(array(
             'nombre_examen' => $data['nom_examen_tx'],
             'ced_docente' => $_SESSION['userid'],
             'nivel_examen' => $data['nivel'],
-            'cod_materia' => $data['cod_materia']
-        ));
+            'cod_materia' => $data['cod_materia']));
+
+        $cod_examen = $this->db->lastInsertId();
         
-        
-        
-        
-        //*****************************************************
-        //VOY POR AQUI
-        //*****************************************************
-        //
-        //
-        //Consulto maximo cod_contenido
-        $consultaMaxCodigo = $this->db->select("SELECT MAX(cod_contenido) as codigo FROM contenidos");
-        $cod_contenido = (int) $consultaMaxContenido[0]['codigo'] + 1;
-    }
-
-    public function createContenido($contenido, $nivel_contenido) {
-        //Consulto maximo cod_contenido
-        $consultaMaxContenido = $this->db->select("SELECT MAX(cod_contenido) as codigo FROM contenidos");
-        $cod_contenido = (int) $consultaMaxContenido[0]['codigo'] + 1;
-
-
-        //Inserto contenido
-        $this->db->insert('contenidos', array(
-            'cod_contenido' => $cod_contenido,
-            'ced_docente' => $_SESSION['userid'],
-            'nombre_contenido' => $contenido,
-            'nivel_contenido' => $nivel_contenido
-        ));
-        return $cod_contenido;
-    }
-    public function editSave($data) {
-        $postData = array(
-            'title' => $data['title'],
-            'content' => $data['content'],
-        );
-
-        $this->db->update('note', $postData, "`noteid` = '{$data['noteid']}' AND userid = '{$_SESSION['userid']}'");
-    }
-
-    public function delete($id) {
-        $this->db->delete('note', "`noteid` = {$data['noteid']} AND userid = '{$_SESSION['userid']}'");
+        return $cod_examen;
     }
 
 }
