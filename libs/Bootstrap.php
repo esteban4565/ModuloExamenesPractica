@@ -162,6 +162,8 @@ class Bootstrap {
      * @return boolean
      */
     private function _error() {
+        echo 'Error';
+        die;
         require $this->_controllerPath . $this->_errorFile;
         $this->_controller = new Error();
         $this->_controller->index();

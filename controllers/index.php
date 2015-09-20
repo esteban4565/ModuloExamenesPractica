@@ -1,10 +1,11 @@
-<?php
+﻿<?php
 
 //Cuando se crea este Controller, adquiere todos los metodos de la clase padre "Controller"
 class Index extends Controller {
 
     function __construct() {
         parent::__construct();
+        $this->view->js = array('index/js/pruebas.js');
     }
 
     //La funcion Index crea una variable, "title" es utilizada para el Title(Parte superior) de la pagina
@@ -18,14 +19,17 @@ class Index extends Controller {
         $this->view->render('footer');
     }
 
-    //La funcion registrarse crea una variable, "title" es utilizada para el Title(Parte superior) de la pagina
-    //Esta variable sera utilizada en el View del Objeto (views/index/registrarse)
-    function registrarse() {
-        $this->view->title = 'Registrarse';
+    //Metodos de Pruebas
+    function prueba() {
+        $this->view->title = 'Metodos de Pruebas';
+        $this->view->asignaturas = $this->model->prueba();
+        $this->view->render('header2');
+        $this->view->render('index/prueba');
+        $this->view->render('footer2');
+    }
 
-        $this->view->render('header');
-        $this->view->render('index/registrarse');
-        $this->view->render('footer');
+    function pruebasjs() {
+        $this->model->pruebasjs();
     }
 
 }

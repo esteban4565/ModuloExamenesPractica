@@ -9,11 +9,11 @@ class MenuPrincipal_Model extends Model {
         parent::__construct();
     }
 
-    public function prueba() {
-        $registro = $this->db->select("SELECT MAX(numero_respuesta) as codigo FROM respuestas");
-        $var_dump=(int) $registro[0]['codigo'] + 1;
-        return $var_dump;
-    }
+//    public function prueba() {
+//        $registro = $this->db->select("SELECT MAX(numero_respuesta) as codigo FROM respuestas");
+//        $var_dump=(int) $registro[0]['codigo'] + 1;
+//        return $var_dump;
+//    }
 
     public function xhrInsert() {
         $text = $_POST['text'];

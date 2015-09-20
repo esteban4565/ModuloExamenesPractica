@@ -36,6 +36,8 @@ class InicioSesion_Model extends Model {
                                                 . "WHERE ced_docente = :cedula "
                                                 . "AND cod_asignatura= codigo", array(':cedula' => $data['cedula']));
                 Session::set('asignaturas', $asignaturas);
+//                print_r($_SESSION['asignaturas']);
+//                die;
             }
             //si el usuario es de tipo 'estudiante' consulto su seccion
             if ($data['tipo'] == 'estudiante') {

@@ -7,16 +7,12 @@ class MenuPrincipal extends Controller {
     function __construct() {
         parent::__construct();
         Auth::handleLogin();
-        $this->view->js = array('menuPrincipal/js/default.js');
     }
 
     //La funcion Index crea una variable, "title" es utilizada para el Title(Parte superior) de la pagina
     //Esta variable sera utilizada en el View del Objeto (views/menuPrincipal/index)
     function index() {
-        $this->view->title = 'Men&uacute Principal';
-        $this->view->prueba =  $this->model->prueba();
-//        $this->view->prueba =  'Hola';
-
+        $this->view->title = 'Menú Principal';
         //Se manda a ejecutar el header, contenido principal (views/menuPrincipal/index) y el footer
         $this->view->render('header');
         $this->view->render('menuPrincipal/index');

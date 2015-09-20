@@ -7,6 +7,7 @@ class Pregunta extends Controller {
     public function __construct() {
         parent::__construct();
         Auth::handleLogin();
+        $this->view->js = array('pregunta/js/pregunta.js');
     }
 
     //La funcion Index crea dos variables, "title" es utilizada para el Title(Parte superior) de la pagina

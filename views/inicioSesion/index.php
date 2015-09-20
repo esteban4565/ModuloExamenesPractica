@@ -1,8 +1,20 @@
-<h1>Inicio Sesi&oacuten</h1>
+<br><br><br>
+<div class="row">
+<h1>Inicio Sesión</h1>
 
-<form action="inicioSesion/run" method="post">
+<form class="form-horizontal" action="inicioSesion/run" method="post">
+    <div class="form-group">
+    <label class="col-xs-6 col-md-2">Usuario</label>
+    <input class="col-xs-6 col-md-2" type="text" name="usuario">
+    </div>
     
-    <label>Usuario</label><input type="text" name="usuario" /><br />
-    <label>Password</label><input type="password" name="password" /><br />
-    <label></label><input type="submit" />
+    <div class="form-group">
+    <label class="col-xs-6 col-md-2">Password</label>
+    <input class="col-xs-6 col-md-2" type="password" name="password">
+    </div>
+    
+    <div class="form-group">
+    <input class="btn btn-primary" type="submit">
+    </div>
 </form>
+</div>
